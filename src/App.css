@@ -1,38 +1,108 @@
-.App {
-  text-align: center;
+/* reset css */
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  color: #333;
+  font-family: "Pretendard-Regular";
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+a {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+img {
+  width: 100%;
+  max-width: 100%;
+}
+button {
+  cursor: pointer;
+}
+body {
+  background-color: #fff;
+}
+@font-face {
+  font-family: "Tenada";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-2@1.0/Tenada.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+.logo {
+  font-family: "Tenada";
+  font-size: 1.4rem;
+  margin-right: 10px;
+}
+.menu {
+  margin-right: 10px;
+  color: #989898;
+}
+.menu:hover {
+  color: #404040;
+}
+.main-bg {
+  height: 300px;
+  background-image: url("./bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.shoe-title {
+  float: left;
+  width: 100%;
+}
+.shoe-content {
+  float: left;
+  width: 100%;
+}
+.shoe-price {
+  float: right;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+.clear::after {
+  content: "";
+  display: block;
+  clear: both;
+  float: none;
+}
+.button {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+}
+.button > button {
+  width: 40%;
+  padding: 10px;
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+.button > button:last-child {
+  margin-right: 0;
 }
 
-.App-link {
-  color: #61dafb;
+.page-title {
+  text-align: center;
+  margin-top: 20px;
+  padding: 10px;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.page-title > h3 {
+  font-family: "Tenada";
+}
+.page-button > button {
+  margin-right: 10px;
+  text-transform: uppercase;
+}
+.page-button > button:last-child {
+  margin-right: 0;
 }
