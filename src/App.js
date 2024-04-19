@@ -1,17 +1,46 @@
 import './App.css';
 import {Button, Container, Nav, Navbar, Row, Col} from 'react-bootstrap';
 import bg from './bg.png';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import data from './data.js';
 import {Routes, Route, Link, useNavigate, Outlet} from 'react-router-dom';
 import Detail from './routes/Detail.js';
 import Item from './components/Item.js';
 import About from './routes/About.js';
 import Event from './routes/Event.js';
+import axios from 'axios';
 
 function App() {
 
   let navigate = useNavigate();
+  let [shoes, setShoes] = useState(data);
+  let [showBtn, setShowBtn] = useState(0);
+  let [loadImg, setLoadImg] = useState(false);
+
+  function moreShoes(){
+    let URL;
+    if(showBtn == 0){
+      setShowBtn(showBtn+1);
+      URL = 'https://codingapple1.github.io/shop/data2.json';
+      getAjax(URL)
+    } else if(showBtn == 1){
+      setShowBtn(showBtn+1);
+      URL = 'https://codingapple1.github.io/shop/data3.json';
+      getAjax(URL)
+    }
+  }
+  function getAjax(URL){
+    setLoadImg(true);
+    console.log(loadImg);
+    axios.get(URL)
+    .then((result)=>{
+      let copy = [...shoes, ...result.data];
+      setShoes(copy);
+    })
+    .catch(()=> alert('서버요청 실패') );
+    setLoadImg(false);
+    console.log(loadImg);
+  }
 
   return (
     <div className="App">
@@ -19,27 +48,32 @@ function App() {
         <Container>
           <Link to='/' className='logo'>Yun's Store</Link>
           <Nav className="me-auto">
-            <Link to='/about' className='menu'>About</Link>
-            <Link to='/detail' className='menu'>Detail</Link>
+            <Link to='/about' className='menu'>About</Link> 
             <Link to='/event' className='menu'>Event</Link>
           </Nav>
         </Container>
-      </Navbar>
+      </Navbar>      
 
       <Routes>
         <Route path='/' element={<>
           <div className='main-bg'></div>
             <Container>
-            <Row>
+              <div className='row'>
+                {
+                  shoes.map((item) => {
+                    return <Item navigate={navigate} item={item} key={item.id}></Item>;
+                  })
+                }
+              </div>
+
               {
-                data.map((item) => {
-                  return <Item item={item} key={item.id}></Item>;
-                })
+                showBtn < 2 ? <Button onClick={moreShoes}>더보기</Button> : null
               }
-              </Row>
-          </Container>
+              {loadImg == true ? <p>로딩중</p> : null}
+              
+            </Container>
         </>}></Route>
-        <Route path='/detail' element={ <Detail data={data}></Detail> }></Route>
+        <Route path='/detail/:id' element={ <Detail data={shoes}></Detail> }></Route>
         <Route path="/about" element={<About navigate={navigate} />}>
           <Route path='member' element={<div>member</div>}></Route>
           <Route path='location' element={<div>location</div>}></Route>
