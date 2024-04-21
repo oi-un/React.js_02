@@ -2,12 +2,15 @@ import {Button, Container, Nav, Navbar, Row, Col, Fade} from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addCart } from '../store';
 
 function Detail(props){
   let {id} = useParams();
   let newId = parseInt(id);
   let [tab, setTab] = useState(0);
   let [fade, setFade] = useState('');
+  let dispatch = useDispatch();
 
   let data = props.data.find(function(item){
     return item.id == id;
@@ -66,16 +69,16 @@ function Detail(props){
           </div>
           <div className='button'>
             <Button variant="danger">구매하기</Button>
-            <Button variant="warning">장바구니</Button>
+            <Button variant="warning" onClick={()=>{dispatch(addCart(data))}}>장바구니</Button>
           </div>
         </Col>
       </Row>
 
       <div className='tab-container'>
         <ul className='tab-menu'>
-          <li className={tab==0 ? 'active':null} onClick={()=>{setTab(0)}}><a>menu 1</a></li>
-          <li className={tab==1 ? 'active':null} onClick={()=>{setTab(1)}}><a>menu 2</a></li>
-          <li className={tab==2 ? 'active':null} onClick={()=>{setTab(2)}}><a>menu 3</a></li>
+          <li className={tab==0 && 'active'} onClick={()=>{setTab(0)}}><a>menu 1</a></li>
+          <li className={tab==1 && 'active'} onClick={()=>{setTab(1)}}><a>menu 2</a></li>
+          <li className={tab==2 && 'active'} onClick={()=>{setTab(2)}}><a>menu 3</a></li>
         </ul>
           <TabContent tab={tab}></TabContent>
       </div>

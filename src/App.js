@@ -1,9 +1,8 @@
 import './App.css';
 import {Button, Container, Nav, Navbar, Row, Col} from 'react-bootstrap';
-import bg from './bg.png';
-import { createContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import data from './data.js';
-import {Routes, Route, Link, useNavigate, Outlet} from 'react-router-dom';
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import Detail from './routes/Detail.js';
 import Item from './components/Item.js';
 import About from './routes/About.js';
