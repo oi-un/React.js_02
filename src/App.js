@@ -1,7 +1,7 @@
 import './App.css';
 import {Button, Container, Nav, Navbar, Row, Col} from 'react-bootstrap';
 import bg from './bg.png';
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import data from './data.js';
 import {Routes, Route, Link, useNavigate, Outlet} from 'react-router-dom';
 import Detail from './routes/Detail.js';
@@ -9,6 +9,7 @@ import Item from './components/Item.js';
 import About from './routes/About.js';
 import Event from './routes/Event.js';
 import axios from 'axios';
+import Cart from './routes/Cart.js';
 
 function App() {
 
@@ -31,16 +32,20 @@ function App() {
   }
   function getAjax(URL){
     setLoadImg(true);
-    console.log(loadImg);
-    axios.get(URL)
-    .then((result)=>{
+
+    axios.get(URL).then((result)=>{
       let copy = [...shoes, ...result.data];
       setShoes(copy);
+      setLoadImg(false);
     })
-    .catch(()=> alert('서버요청 실패') );
-    setLoadImg(false);
-    console.log(loadImg);
+    .catch(()=> {
+      alert('서버요청 실패');
+      setLoadImg(false);
+    });
+    
   }
+
+  let [cart, setCart] = useState()
 
   return (
     <div className="App">
@@ -50,6 +55,7 @@ function App() {
           <Nav className="me-auto">
             <Link to='/about' className='menu'>About</Link> 
             <Link to='/event' className='menu'>Event</Link>
+            <Link to='/cart' className='menu'>Cart</Link>
           </Nav>
         </Container>
       </Navbar>      
@@ -69,11 +75,11 @@ function App() {
               {
                 showBtn < 2 ? <Button onClick={moreShoes}>더보기</Button> : null
               }
-              {loadImg == true ? <p>로딩중</p> : null}
+              {loadImg === true ? <p>로딩중입니다.</p> : null}
               
             </Container>
         </>}></Route>
-        <Route path='/detail/:id' element={ <Detail data={shoes}></Detail> }></Route>
+        <Route path='/detail/:id' element={<Detail data={shoes}></Detail>}></Route>
         <Route path="/about" element={<About navigate={navigate} />}>
           <Route path='member' element={<div>member</div>}></Route>
           <Route path='location' element={<div>location</div>}></Route>
@@ -82,6 +88,7 @@ function App() {
           <Route path='one' element={<>첫 주문시 양배추즙 서비스</>}></Route>
           <Route path='two' element={<>생일기념 쿠폰받기</>}></Route>
         </Route>
+        <Route path='/cart' element={<Cart></Cart>}></Route>
         <Route path='*' element={<h1>404페이지</h1>}></Route>
       </Routes>
     </div>

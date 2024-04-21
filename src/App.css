@@ -106,3 +106,40 @@ body {
 .page-button > button:last-child {
   margin-right: 0;
 }
+
+/* tab-menu */
+.tab-container {
+  position: relative;
+}
+.tab-menu {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  position: relative;
+}
+.tab-menu > li {
+  color: #fff;
+  background-color: #333;
+}
+.tab-menu > li.active {
+  background-color: #aaa;
+}
+.tab-menu > li > a {
+  text-align: center;
+  text-transform: uppercase;
+  padding: 10px;
+}
+.tab-content {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background-color: #eee;
+}
+.start {
+  opacity: 0;
+}
+.end {
+  opacity: 1;
+  transition: opacity 0.5s;
+}
