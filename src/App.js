@@ -10,6 +10,7 @@ import Event from './routes/Event.js';
 import axios from 'axios';
 import Cart from './routes/Cart.js';
 import Watched from './components/Watched.js';
+import { useQuery } from 'react-query';
 
 function App() {
 
@@ -45,6 +46,11 @@ function App() {
     
   }
 
+  let result = useQuery('작명', ()=>{
+    return axios.get('https://codingapple1.github.io/userdata.json')
+    .then((res)=>{return res.data})
+  });
+
   return (
     <div className="App">
       <Navbar bg="light" data-bs-theme="light">
@@ -54,6 +60,9 @@ function App() {
             <Link to='/about' className='menu'>About</Link> 
             <Link to='/event' className='menu'>Event</Link>
             <Link to='/cart' className='menu'>Cart</Link>
+          </Nav>
+          <Nav className='ms-auto'>
+            {result.isLoading ? '로딩중' : result.data.name}
           </Nav>
         </Container>
       </Navbar>
