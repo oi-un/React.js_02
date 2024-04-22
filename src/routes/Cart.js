@@ -1,15 +1,23 @@
 import { Container, Table  } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { addCount, removeItem } from "../store";
+import { memo, useState } from "react";
+
+let Child = memo(function(){
+  return <div>자식임</div>
+})
 
 export default function Cart() {
 
   let cart = useSelector((state)=> state.cart);
   let user = useSelector((state)=> state.user);
   let dispatch = useDispatch();
+  let [count, setCount] = useState(0);
 
   return(<>
     <Container>
+      <Child></Child>
+      <button onClick={()=>{setCount(count+1)}}>+</button>
     <div className='page-title'>
       <h3>{user.name}의 장바구니</h3>
     </div>

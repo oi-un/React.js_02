@@ -1,16 +1,17 @@
 import './App.css';
 import {Button, Container, Nav, Navbar, Row, Col} from 'react-bootstrap';
-import { useState } from 'react';
+import { Suspense, lazy, useState } from 'react';
 import data from './data.js';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
-import Detail from './routes/Detail.js';
 import Item from './components/Item.js';
-import About from './routes/About.js';
-import Event from './routes/Event.js';
 import axios from 'axios';
-import Cart from './routes/Cart.js';
 import Watched from './components/Watched.js';
 import { useQuery } from 'react-query';
+
+const Detail = lazy(() => import('./routes/Detail.js'));
+const Cart = lazy(() => import('./routes/Cart.js'));
+const About = lazy(() => import('./routes/About.js'));
+const Event = lazy(() => import('./routes/Event.js'));
 
 function App() {
 
@@ -68,33 +69,35 @@ function App() {
       </Navbar>
       <Watched></Watched>  
 
-      <Routes>
-        <Route path='/' element={<>
-          <div className='main-bg'></div>
-            <Container>
-              <div className='row'>
-                {shoes.map((item) => {
-                    return <Item navigate={navigate} item={item} key={item.id}></Item>;
-                })}
-              </div>
+      <Suspense fallback={<div>로딩중</div>}>
+        <Routes>
+          <Route path='/' element={<>
+            <div className='main-bg'></div>
+              <Container>
+                <div className='row'>
+                  {shoes.map((item) => {
+                      return <Item navigate={navigate} item={item} key={item.id}></Item>;
+                  })}
+                </div>
 
-              {showBtn < 2 ? <Button onClick={moreShoes}>더보기</Button> : null}
-              {loadImg === true ? <p>로딩중입니다.</p> : null}
-              
-            </Container>
-        </>}></Route>
-        <Route path='/detail/:id' element={<Detail data={shoes}></Detail>}></Route>
-        <Route path="/about" element={<About navigate={navigate} />}>
-          <Route path='member' element={<div>member</div>}></Route>
-          <Route path='location' element={<div>location</div>}></Route>
-        </Route>
-        <Route path='/event' element={<Event navigate={navigate} />}>
-          <Route path='one' element={<>첫 주문시 양배추즙 서비스</>}></Route>
-          <Route path='two' element={<>생일기념 쿠폰받기</>}></Route>
-        </Route>
-        <Route path='/cart' element={<Cart></Cart>}></Route>
-        <Route path='*' element={<h1>404페이지</h1>}></Route>
-      </Routes>
+                {showBtn < 2 ? <Button onClick={moreShoes}>더보기</Button> : null}
+                {loadImg === true ? <p>로딩중입니다.</p> : null}
+                
+              </Container>
+          </>}></Route>
+          <Route path='/detail/:id' element={ <Detail data={shoes}></Detail> }></Route>
+          <Route path="/about" element={<About navigate={navigate} />}>
+            <Route path='member' element={<div>member</div>}></Route>
+            <Route path='location' element={<div>location</div>}></Route>
+          </Route>
+          <Route path='/event' element={<Event navigate={navigate} />}>
+            <Route path='one' element={<>첫 주문시 양배추즙 서비스</>}></Route>
+            <Route path='two' element={<>생일기념 쿠폰받기</>}></Route>
+          </Route>
+          <Route path='/cart' element={<Cart></Cart>}></Route>
+          <Route path='*' element={<h1>404페이지</h1>}></Route>
+        </Routes>
+      </Suspense>
     </div>
   );
 }
