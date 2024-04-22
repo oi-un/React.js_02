@@ -1,6 +1,5 @@
 import {Button, Container, Nav, Navbar, Row, Col, Fade} from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
+import { json, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addCart } from '../store';
@@ -44,11 +43,29 @@ function Detail(props){
     }
   },[])
 
+  useEffect(()=>{
+    let local = JSON.parse(localStorage.getItem('watched'));
+    if(local == null){
+      localStorage.setItem('watched', '[]');
+    }else if(local.length === 0){ // 비어있는 배열이면 현재 아이템을 추가한다.
+      let item = {id: data.id, name: data.title}
+      local.push(item);
+      localStorage.setItem('watched', JSON.stringify(local));
+    } else { // 비어있지 않다면 id값을 확인해서 추가한다.
+      let index = local.findIndex((item)=>{return item.id === data.id});
+      if(index === -1){
+        let item = {id: data.id, name: data.title}
+        local.unshift(item);
+        localStorage.setItem('watched', JSON.stringify(local));
+      }
+    }
+  }, [])
+
   return(<>
     <Container>
       <div className={`start ${fade}`}>
       {
-        time == true ? 
+        time === true ? 
         <div className='alert alert-warning'>
           2초 뒤에 사라지는 박스
         </div>
@@ -76,9 +93,9 @@ function Detail(props){
 
       <div className='tab-container'>
         <ul className='tab-menu'>
-          <li className={tab==0 && 'active'} onClick={()=>{setTab(0)}}><a>menu 1</a></li>
-          <li className={tab==1 && 'active'} onClick={()=>{setTab(1)}}><a>menu 2</a></li>
-          <li className={tab==2 && 'active'} onClick={()=>{setTab(2)}}><a>menu 3</a></li>
+          <li className={tab===0 && 'active'} onClick={()=>{setTab(0)}}><a>menu 1</a></li>
+          <li className={tab===1 && 'active'} onClick={()=>{setTab(1)}}><a>menu 2</a></li>
+          <li className={tab===2 && 'active'} onClick={()=>{setTab(2)}}><a>menu 3</a></li>
         </ul>
           <TabContent tab={tab}></TabContent>
       </div>
@@ -99,14 +116,6 @@ function TabContent(props){
       setFade('');
     }
   }, [tab])
-
-  // if( tab === 0){
-  //   return <div className="tab-content">menu 1 컨텐트임~</div>
-  // } else if(tab === 1){
-  //   return <div className="tab-content">menu 2 컨텐트임~</div>
-  // } else {
-  //   return <div className="tab-content">menu 3 컨텐트임~</div>
-  // }
 
   return(
     <div className={`start ${fade}`}>

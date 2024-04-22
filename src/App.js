@@ -9,6 +9,7 @@ import About from './routes/About.js';
 import Event from './routes/Event.js';
 import axios from 'axios';
 import Cart from './routes/Cart.js';
+import Watched from './components/Watched.js';
 
 function App() {
 
@@ -44,8 +45,6 @@ function App() {
     
   }
 
-  let [cart, setCart] = useState()
-
   return (
     <div className="App">
       <Navbar bg="light" data-bs-theme="light">
@@ -57,23 +56,20 @@ function App() {
             <Link to='/cart' className='menu'>Cart</Link>
           </Nav>
         </Container>
-      </Navbar>      
+      </Navbar>
+      <Watched></Watched>  
 
       <Routes>
         <Route path='/' element={<>
           <div className='main-bg'></div>
             <Container>
               <div className='row'>
-                {
-                  shoes.map((item) => {
+                {shoes.map((item) => {
                     return <Item navigate={navigate} item={item} key={item.id}></Item>;
-                  })
-                }
+                })}
               </div>
 
-              {
-                showBtn < 2 ? <Button onClick={moreShoes}>더보기</Button> : null
-              }
+              {showBtn < 2 ? <Button onClick={moreShoes}>더보기</Button> : null}
               {loadImg === true ? <p>로딩중입니다.</p> : null}
               
             </Container>

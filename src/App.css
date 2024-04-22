@@ -143,3 +143,30 @@ body {
   opacity: 1;
   transition: opacity 0.5s;
 }
+
+.watched {
+  width: 100%;
+}
+.watched * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.watched-container {
+  padding: 10px;
+  background-color: #eee;
+  display: flex;
+}
+.watched-item {
+  width: 100px;
+  background-color: #fff;
+  margin-right: 5px;
+}
+.watched-item:last-child {
+  margin-right: 0;
+}
+.watched-item h6 {
+  text-align: center;
+  margin-top: 5px;
+  font-size: 1rem;
+}

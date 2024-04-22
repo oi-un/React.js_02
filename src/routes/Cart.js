@@ -4,7 +4,8 @@ import { addCount, removeItem } from "../store";
 
 export default function Cart() {
 
-  let {cart, user} = useSelector((state)=> state);
+  let cart = useSelector((state)=> state.cart);
+  let user = useSelector((state)=> state.user);
   let dispatch = useDispatch();
 
   return(<>

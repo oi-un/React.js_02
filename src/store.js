@@ -35,17 +35,18 @@ let cart = createSlice({
       }
     },
     removeItem(state, actions){ // 장바구니 항목 삭제
-      let sameItem = state.findIndex((item)=>{return item.id == actions.payload.id});
+      let sameItem = state.findIndex((item)=>{return item.id === actions.payload.id});
       state.splice(sameItem, 1);
     }
   }
 })
 export let {addCount, addCart, removeItem} = cart.actions;
 
+
 export default configureStore({
   reducer: {
     user: user.reducer,
     stock: stock.reducer,
-    cart: cart.reducer
+    cart: cart.reducer, 
   }
 })
